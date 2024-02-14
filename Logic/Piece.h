@@ -16,6 +16,7 @@ public:
     void loadSprite();
     void setPieceType(Type pieceType);
     void setColor(Color color);
+    Color getColor();
 
 protected:
     /* TODO */
