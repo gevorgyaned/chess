@@ -1,7 +1,3 @@
-//
-// Created by Picsart Academy on 12.02.24.
-//
-
 #ifndef SFML_PROJ_GAME_H
 #define SFML_PROJ_GAME_H
 
@@ -17,16 +13,18 @@ public:
     void run();
 
 private:
-    bool playingTurn;
-    bool squareSelected;
     sf::RenderWindow& mWindow;
     Board& mBoard;
 
-    sf::Vector2i from;
-    sf::Vector2i to;
+    bool squareSelected;
+    Piece::Color currentPlayer;
+
+    sf::Vector2i moveFrom;
+    sf::Vector2i moveTo;
 
     void move();
     void handleInput();
+    void changePlayer();
 };
 
 
