@@ -13,6 +13,10 @@ void Piece::setPieceType(Piece::Type pieceType) {
     m_pieceType = pieceType;
 }
 
+Piece::Color Piece::getColor() {
+    return m_color;
+}
+
 Piece::Type Piece::getPieceType() {
     return m_pieceType;
 }
