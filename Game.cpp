@@ -1,7 +1,7 @@
 #include "Game.h"
 
 Game::Game(sf::RenderWindow &window, Board& board) : mWindow(window), mBoard(board) {
-    playingTurn = 1;
+    currentPlayer = Piece::Color::White;
     squareSelected = false;
 }
 
@@ -24,8 +24,15 @@ void Game::run() {
 }
 
 void Game::move() {
-    mBoard.getSquare(to).m_piece = mBoard.getSquare(from).m_piece;
-    mBoard.getSquare(from).setPiece(Piece::Color::NoColor, Piece::Type::NoType);
+    if (currentPlayer != mBoard.getSquare(moveFrom).m_piece.getColor()) {
+        squareSelected = false;
+        return;
+    }
+
+    mBoard.getSquare(moveTo).m_piece = mBoard.getSquare(moveFrom).m_piece;
+    mBoard.getSquare(moveFrom).setPiece(Piece::Color::NoColor, Piece::Type::NoType);
+
+    changePlayer();
 }
 
 void Game::handleInput() {
@@ -38,13 +45,27 @@ void Game::handleInput() {
         squareCoords = {(int)boardPixels.x / 60, (int)boardPixels.y / 60};
 
         if (squareSelected) {
-            to = squareCoords;
+            moveTo = squareCoords;
+
+            if (moveTo == moveFrom) {
+                return;
+            }
+
             squareSelected = false;
             move();
         }
         else {
-            from = squareCoords;
+            moveFrom = squareCoords;
+
+            if (moveTo == moveFrom) {
+                return;
+            }
+
             squareSelected = true;
         }
     }
+}
+
+void Game::changePlayer() {
+    currentPlayer = currentPlayer == Piece::Color::White ? Piece::Color::Black : Piece::Color::White;
 }
